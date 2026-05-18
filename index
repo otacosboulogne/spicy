@@ -910,7 +910,7 @@
 
         async function sendToGoogleSheets(data) {
             // Remplacer par votre DEPLOYMENT_ID
-            const SCRIPT_URL = 'https://script.google.com/macros/d/{DEPLOYMENT_ID}/usercallback';
+            const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwPxlf3nQMiW6mAVOUUvwBmgVvJxn1xiZcK9sx7f7mG4m9ITio-vZNmnJGALln8x66XvQ/exec';
 
             const form = new FormData();
             Object.keys(data).forEach(key => {
