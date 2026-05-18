@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O'Tacos - Formulaire d'Inscription</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;900&family=Sour+Gummy:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #FF6B2C;
+            --primary-dark: #E55100;
+            --secondary: #FFD600;
+            --accent: #FF4500;
+            --dark: #1a1a1a;
+            --light: #f8f8f8;
+            --success: #4CAF50;
+            --danger: #E74C3C;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, var(--dark) 0%, #2d2d2d 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            animation: slideDown 0.8s ease-out;
+        }
+
+        .header h1 {
+            font-family: 'Sour Gummy', cursive;
+            font-size: 3.5em;
+            color: var(--primary);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .header p {
+            color: var(--secondary);
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+
+        .form-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(255, 107, 44, 0.2);
+            overflow: hidden;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        .form-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .form-header h2 {
+            position: relative;
+            z-index: 1;
+            font-size: 1.8em;
+            margin-bottom: 5px;
+        }
+
+        .form-header p {
+            position: relative;
+            z-index: 1;
+            font-size: 0.95em;
+            opacity: 0.95;
+        }
+
+        .progress-bar {
+            background: rgba(255, 255, 255, 0.3);
+            height: 6px;
+            margin-top: 15px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--secondary);
+            transition: width 0.4s ease;
+        }
+
+        .form-content {
+            padding: 40px;
+        }
+
+        .form-section {
+            display: none;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .form-section.active {
+            display: block;
+        }
+
+        .section-title {
+            font-family: 'Sour Gummy', cursive;
+            font-size: 1.8em;
+            color: var(--primary);
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--secondary);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 0.95em;
+        }
+
+        .form-group label .required {
+            color: var(--danger);
+            margin-left: 4px;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="tel"],
+        .form-group input[type="date"],
+        .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1em;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .form-group input[type="text"]:focus,
+        .form-group input[type="email"]:focus,
+        .form-group input[type="tel"]:focus,
+        .form-group input[type="date"]:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(255, 107, 44, 0.1);
+            background: white;
+        }
+
+        .form-group input[type="text"]:disabled,
+        .form-group input[type="date"]:disabled {
+            background: #f5f5f5;
+            color: #999;
+            cursor: not-allowed;
+        }
+
+        .age-display {
+            background: linear-gradient(135deg, rgba(255, 107, 44, 0.1) 0%, rgba(255, 212, 0, 0.1) 100%);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 10px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .age-display p {
+            margin: 5px 0;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .age-display .status {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 700;
+            margin-top: 10px;
+        }
+
+        .age-display .status.major {
+            background: var(--success);
+            color: white;
+        }
+
+        .age-display .status.minor {
+            background: var(--danger);
+            color: white;
+        }
+
+        .section-info {
+            background: #e3f2fd;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            font-size: 0.95em;
+            color: #1565c0;
+            line-height: 1.6;
+        }
+
+        .checkbox-group {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #f0f0f0;
+            margin-bottom: 20px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .checkbox-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-top: 3px;
+            margin-right: 15px;
+            cursor: pointer;
+            accent-color: var(--primary);
+            flex-shrink: 0;
+        }
+
+        .checkbox-item label {
+            margin: 0;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.95em;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .rgpd-section {
+            background: linear-gradient(135deg, rgba(255, 107, 44, 0.05) 0%, rgba(255, 212, 0, 0.05) 100%);
+            border-left: 4px solid var(--primary);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 25px 0;
+            font-size: 0.9em;
+            line-height: 1.7;
+        }
+
+        .rgpd-section h3 {
+            color: var(--primary);
+            margin-bottom: 12px;
+            font-size: 1.05em;
+        }
+
+        .rgpd-section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .rgpd-section li {
+            margin-bottom: 10px;
+            padding-left: 25px;
+            position: relative;
+            color: #555;
+        }
+
+        .rgpd-section li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--success);
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 35px;
+        }
+
+        button {
+            flex: 1;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 10px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 107, 44, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(255, 107, 44, 0.4);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: var(--dark);
+            border: 2px solid #e0e0e0;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .message {
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: none;
+            animation: slideDown 0.4s ease-out;
+            border-left: 4px solid;
+        }
+
+        .message.show {
+            display: block;
+        }
+
+        .message.success {
+            background: rgba(76, 175, 80, 0.1);
+            color: var(--success);
+            border-color: var(--success);
+        }
+
+        .message.error {
+            background: rgba(231, 76, 60, 0.1);
+            color: var(--danger);
+            border-color: var(--danger);
+        }
+
+        .loader {
+            display: none;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        .loader.show {
+            display: block;
+        }
+
+        .minor-section {
+            display: none;
+        }
+
+        .minor-section.show {
+            display: block;
+            animation: slideDown 0.5s ease-out;
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, rgba(255, 107, 44, 0.05) 0%, rgba(255, 212, 0, 0.05) 100%);
+            border: 2px solid var(--primary);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .info-box p {
+            color: var(--dark);
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .info-box strong {
+            color: var(--primary);
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5em;
+            }
+
+            .form-content {
+                padding: 25px;
+            }
+
+            .section-title {
+                font-size: 1.4em;
+            }
+
+            button {
+                padding: 12px 20px;
+                font-size: 0.9em;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌶️ O'TACOS 🌶️</h1>
+            <p>SPICY CHALLENGE - Inscription</p>
+        </div>
+
+        <div class="form-card">
+            <div class="form-header">
+                <h2>Formulaire d'Inscription</h2>
+                <p id="headerSubtitle">Informations personnelles</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 33%"></div>
+                </div>
+            </div>
+
+            <div class="form-content">
+                <div id="errorMessage" class="message error"></div>
+                <div id="successMessage" class="message success"></div>
+
+                <form id="mainForm">
+                    <!-- SECTION 1: Informations personnelles -->
+                    <div class="form-section active" id="section1">
+                        <div class="section-title">📋 Vos Informations</div>
+
+                        <div class="form-group">
+                            <label>Nom <span class="required">*</span></label>
+                            <input type="text" id="nom" required placeholder="Dupont">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Prénom <span class="required">*</span></label>
+                            <input type="text" id="prenom" required placeholder="Jean">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Date de naissance <span class="required">*</span></label>
+                            <input type="date" id="date_naissance" required>
+                        </div>
+
+                        <div id="ageDisplay" class="age-display" style="display:none;">
+                            <p>Âge: <strong id="ageValue">-</strong> ans</p>
+                            <p>Statut: <span class="status" id="statusValue">-</span></p>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Adresse <span class="required">*</span></label>
+                            <input type="text" id="adresse" required placeholder="123 Rue de la Paix">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Code Postal <span class="required">*</span></label>
+                            <input type="text" id="code_postal" required placeholder="75000">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Ville <span class="required">*</span></label>
+                            <input type="text" id="ville" required placeholder="Paris">
+                        </div>
+
+                        <div class="button-group">
+                            <button type="button" class="btn-primary" onclick="goToSection(2)">
+                                Continuer →
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- SECTION 2: Conditions et Droits d'image -->
+                    <div class="form-section" id="section2">
+                        <div class="section-title">⚖️ Conditions & Autorisation</div>
+
+                        <div class="section-info">
+                            <strong>Important:</strong> Veuillez lire et cocher les conditions avant de continuer.
+                        </div>
+
+                        <!-- Déclaration Majeure/Mineure -->
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="decl_droits" required>
+                                <label for="decl_droits">
+                                    <span id="declText">Je déclare être majeur(e) et entièrement investi(e) de mes droits personnels. Je reconnais expressément n'être lié(e) par aucun contrat exclusif pour l'utilisation de mon image et/ou de ma voix.</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Autorisation Image/Voix -->
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="auth_image" required>
+                                <label for="auth_image">☐ J'autorise explicitement l'utilisation de mon image</label>
+                            </div>
+
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="auth_voix" required>
+                                <label for="auth_voix">☐ J'autorise explicitement l'utilisation de ma voix</label>
+                            </div>
+                        </div>
+
+                        <!-- Durée -->
+                        <div class="section-info">
+                            ⏱️ La présente autorisation est consentie pour <strong>le monde entier</strong>, sur <strong>tous supports</strong>, et pour une durée maximale de <strong>1 an</strong>.
+                        </div>
+
+                        <!-- Infos RGPD -->
+                        <div class="rgpd-section">
+                            <h3>🔒 Vos droits selon le RGPD</h3>
+                            <p style="margin-bottom: 15px;">En vertu du RGPD, vous jouissez des droits suivants:</p>
+                            <ul>
+                                <li><strong>Droit d'effacement:</strong> Vous avez le droit de demander la suppression de vos données personnelles.</li>
+                                <li><strong>Droit à la limitation du traitement:</strong> Vous avez le droit de demander la limitation du traitement de vos données.</li>
+                                <li><strong>Droit d'opposition:</strong> Vous avez le droit de vous opposer à tout moment au traitement de vos données personnelles.</li>
+                                <li><strong>Droit de retrait du consentement:</strong> Vous pouvez retirer votre consentement au traitement de vos données personnelles à tout moment.</li>
+                                <li><strong>Droit à la conservation post-mortem:</strong> Vous avez la possibilité d'organiser la conservation, l'effacement et la communication de vos données personnelles après votre décès.</li>
+                            </ul>
+                        </div>
+
+                        <div class="rgpd-section">
+                            <h3>📧 Nous contacter</h3>
+                            <p><strong>Par voie postale:</strong><br>
+                            O'TACOS CAP SUD – 106 avenue Marx Dormoy<br>
+                            92120 MONTROUGE</p>
+                            <p style="margin-top: 10px;"><strong>Par voie électronique:</strong><br>
+                            <a href="mailto:dpo@o-tacos.com" style="color: var(--primary); font-weight: 600;">dpo@o-tacos.com</a><br>
+                            (Objet: "Données personnelles")</p>
+                        </div>
+
+                        <!-- Section mineurs -->
+                        <div class="minor-section" id="minorSection">
+                            <div class="info-box">
+                                <p>👨‍👩‍👧 Vous êtes mineur(e)</p>
+                                <p>Le consentement de votre représentant légal est nécessaire.</p>
+                            </div>
+
+                            <div class="section-title" style="margin-top: 30px;">👤 Représentant Légal</div>
+
+                            <div class="form-group">
+                                <label>Nom du représentant <span class="required">*</span></label>
+                                <input type="text" id="repr_nom" placeholder="Dupont">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Prénom du représentant <span class="required">*</span></label>
+                                <input type="text" id="repr_prenom" placeholder="Marie">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Email du représentant <span class="required">*</span></label>
+                                <input type="email" id="repr_email" placeholder="marie@example.com">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Téléphone du représentant <span class="required">*</span></label>
+                                <input type="tel" id="repr_telephone" placeholder="+33 6 12 34 56 78">
+                            </div>
+                        </div>
+
+                        <div class="button-group">
+                            <button type="button" class="btn-secondary" onclick="goToSection(1)">
+                                ← Retour
+                            </button>
+                            <button type="button" class="btn-primary" onclick="goToSection(3)">
+                                Continuer →
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- SECTION 3: Confirmation -->
+                    <div class="form-section" id="section3">
+                        <div class="section-title">✅ Résumé & Confirmation</div>
+
+                        <div id="summaryContent" class="section-info" style="background: white; border: 2px solid var(--primary);">
+                            <!-- Dynamiquement rempli par JS -->
+                        </div>
+
+                        <div class="info-box">
+                            <p>📋 Un document récapitulant vos informations sera généré.</p>
+                            <p>Vous pourrez le faire signer le jour du <strong>SPICY CHALLENGE</strong> au restaurant! 🌶️</p>
+                        </div>
+
+                        <div id="minorConfirm" class="section-info" style="display: none;">
+                            <p>📄 Votre représentant légal devra signer l'autorisation lors de votre venue au restaurant.</p>
+                        </div>
+
+                        <!-- Protection légale -->
+                        <div class="rgpd-section">
+                            <h3>🔒 Cadre d'utilisation des informations</h3>
+                            <p style="margin-bottom: 15px;">Les informations et données fournie dans ce formulaire seront utilisées <strong>exclusivement</strong> dans le cadre du <strong>Spicy Challenge</strong>.</p>
+                            <p>L'utilisation de votre image et/ou voix est limitée à :</p>
+                            <ul>
+                                <li>Communication et promotion du Spicy Challenge</li>
+                                <li>Documentation et contenu relatif à l'événement</li>
+                                <li>Réseaux sociaux et médias O'Tacos</li>
+                                <li>Durée maximale: <strong>1 an</strong></li>
+                            </ul>
+                            <p style="margin-top: 15px;"><strong>Interdictions :</strong> Les données ne seront pas vendues, louées ou transférées à des tiers sans consentement explicite.</p>
+                        </div>
+
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="legal_protection" required>
+                                <label for="legal_protection">
+                                    ☐ Je reconnais que mes informations seront utilisées <strong>strictement dans le cadre du Spicy Challenge</strong> et selon les modalités décrites ci-dessus.
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="loader" id="loader"></div>
+
+                        <div class="button-group">
+                            <button type="button" class="btn-secondary" onclick="goToSection(2)">
+                                ← Retour
+                            </button>
+                            <button type="submit" class="btn-primary">
+                                ✓ Valider & Envoyer
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSection = 1;
+        let isMinor = false;
+
+        // Calcul de l'âge
+        document.getElementById('date_naissance').addEventListener('change', function() {
+            const birthDate = new Date(this.value);
+            const today = new Date();
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const monthDiff = today.getMonth() - birthDate.getMonth();
+            
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+
+            if (age >= 0) {
+                document.getElementById('ageDisplay').style.display = 'block';
+                document.getElementById('ageValue').textContent = age;
+                
+                isMinor = age < 18;
+                const statusEl = document.getElementById('statusValue');
+                
+                if (isMinor) {
+                    statusEl.textContent = 'MINEUR(E)';
+                    statusEl.className = 'status minor';
+                    // Changer le texte de déclaration pour mineur
+                    document.getElementById('declText').textContent = 'J\'accepte les conditions de participation au Spicy Challenge.';
+                    document.getElementById('minorSection').classList.add('show');
+                } else {
+                    statusEl.textContent = 'MAJEUR(E)';
+                    statusEl.className = 'status major';
+                    // Revenir au texte de déclaration pour majeur
+                    document.getElementById('declText').textContent = 'Je déclare être majeur(e) et entièrement investi(e) de mes droits personnels. Je reconnais expressément n\'être lié(e) par aucun contrat exclusif pour l\'utilisation de mon image et/ou de ma voix.';
+                    document.getElementById('minorSection').classList.remove('show');
+                }
+            }
+        });
+
+        function goToSection(section) {
+            if (!validateCurrent()) return;
+            currentSection = section;
+            updateUI();
+        }
+
+        function validateCurrent() {
+            const err = document.getElementById('errorMessage');
+            err.classList.remove('show');
+
+            if (currentSection === 1) {
+                if (!document.getElementById('nom').value.trim() ||
+                    !document.getElementById('prenom').value.trim() ||
+                    !document.getElementById('date_naissance').value ||
+                    !document.getElementById('adresse').value.trim() ||
+                    !document.getElementById('code_postal').value.trim() ||
+                    !document.getElementById('ville').value.trim()) {
+                    showError('❌ Veuillez remplir tous les champs obligatoires');
+                    return false;
+                }
+            } else if (currentSection === 2) {
+                if (!document.getElementById('decl_droits').checked ||
+                    !document.getElementById('auth_image').checked ||
+                    !document.getElementById('auth_voix').checked) {
+                    showError('❌ Veuillez cocher toutes les autorisations');
+                    return false;
+                }
+                
+                if (isMinor) {
+                    if (!document.getElementById('repr_nom').value.trim() ||
+                        !document.getElementById('repr_prenom').value.trim() ||
+                        !document.getElementById('repr_email').value.trim() ||
+                        !document.getElementById('repr_telephone').value.trim()) {
+                        showError('❌ Veuillez remplir toutes les informations du représentant');
+                        return false;
+                    }
+                }
+            } else if (currentSection === 3) {
+                if (!document.getElementById('legal_protection').checked) {
+                    showError('❌ Veuillez confirmer l\'utilisation de vos données dans le cadre du Spicy Challenge');
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        function updateUI() {
+            // Cacher toutes les sections
+            document.querySelectorAll('.form-section').forEach(el => el.classList.remove('active'));
+            document.getElementById(`section${currentSection}`).classList.add('active');
+
+            // Mettre à jour la barre de progression
+            const progress = (currentSection / 3) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+
+            // Mettre à jour le titre
+            const titles = [
+                'Informations personnelles',
+                'Conditions & Droits',
+                'Confirmation'
+            ];
+            document.getElementById('headerSubtitle').textContent = titles[currentSection - 1];
+
+            // Remplir le résumé
+            if (currentSection === 3) {
+                updateSummary();
+            }
+
+            // Scroll vers le haut du formulaire
+            document.querySelector('.form-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function updateSummary() {
+            const nom = document.getElementById('nom').value;
+            const prenom = document.getElementById('prenom').value;
+            const dateBirth = document.getElementById('date_naissance').value;
+            const adresse = document.getElementById('adresse').value;
+            const codePostal = document.getElementById('code_postal').value;
+            const ville = document.getElementById('ville').value;
+            const age = document.getElementById('ageValue').textContent;
+
+            let html = `
+                <h3 style="color: var(--primary); margin-bottom: 15px;">📝 Récapitulatif de vos informations:</h3>
+                <p><strong>Nom:</strong> ${nom} ${prenom}</p>
+                <p><strong>Date de naissance:</strong> ${dateBirth}</p>
+                <p><strong>Âge:</strong> ${age} ans</p>
+                <p><strong>Adresse:</strong> ${adresse}, ${codePostal} ${ville}</p>
+            `;
+
+            if (isMinor) {
+                html += `
+                    <hr style="margin: 15px 0; border: none; border-top: 1px solid #ddd;">
+                    <h3 style="color: var(--primary); margin-top: 15px; margin-bottom: 10px;">👤 Représentant légal:</h3>
+                    <p><strong>Nom:</strong> ${document.getElementById('repr_nom').value} ${document.getElementById('repr_prenom').value}</p>
+                    <p><strong>Email:</strong> ${document.getElementById('repr_email').value}</p>
+                    <p><strong>Téléphone:</strong> ${document.getElementById('repr_telephone').value}</p>
+                `;
+                document.getElementById('minorConfirm').style.display = 'block';
+            } else {
+                document.getElementById('minorConfirm').style.display = 'none';
+            }
+
+            document.getElementById('summaryContent').innerHTML = html;
+        }
+
+        function showError(msg) {
+            const err = document.getElementById('errorMessage');
+            err.textContent = msg;
+            err.classList.add('show');
+            setTimeout(() => err.classList.remove('show'), 5000);
+        }
+
+        function showSuccess(msg) {
+            const success = document.getElementById('successMessage');
+            success.textContent = msg;
+            success.classList.add('show');
+        }
+
+        // Soumission du formulaire
+        document.getElementById('mainForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            if (!validateCurrent()) return;
+
+            document.getElementById('loader').classList.add('show');
+
+            try {
+                const formData = {
+                    nom: document.getElementById('nom').value,
+                    prenom: document.getElementById('prenom').value,
+                    date_naissance: document.getElementById('date_naissance').value,
+                    age: parseInt(document.getElementById('ageValue').textContent),
+                    statut: isMinor ? 'Mineur(e)' : 'Majeur(e)',
+                    adresse: document.getElementById('adresse').value,
+                    code_postal: document.getElementById('code_postal').value,
+                    ville: document.getElementById('ville').value,
+                    autorisation_image: 'Oui',
+                    autorisation_voix: 'Oui',
+                    rgpd_accepte: 'Oui',
+                    date_inscription: new Date().toLocaleDateString('fr-FR'),
+                    heure_inscription: new Date().toLocaleTimeString('fr-FR')
+                };
+
+                // Si mineur, ajouter les infos du représentant
+                if (isMinor) {
+                    formData.repr_nom = document.getElementById('repr_nom').value;
+                    formData.repr_prenom = document.getElementById('repr_prenom').value;
+                    formData.repr_email = document.getElementById('repr_email').value;
+                    formData.repr_telephone = document.getElementById('repr_telephone').value;
+                }
+
+                // Envoyer à Google Sheets
+                await sendToGoogleSheets(formData);
+
+                document.getElementById('loader').classList.remove('show');
+                showSuccess('✅ Inscription réussie! Vos données ont été enregistrées. À bientôt au restaurant! 🌶️');
+                
+                // Désactiver le formulaire
+                document.getElementById('mainForm').style.opacity = '0.6';
+                document.getElementById('mainForm').style.pointerEvents = 'none';
+
+            } catch (error) {
+                document.getElementById('loader').classList.remove('show');
+                showError('❌ Erreur lors de l\'envoi: ' + error.message);
+                console.error('Erreur:', error);
+            }
+        });
+
+        async function sendToGoogleSheets(data) {
+            // Remplacer par votre DEPLOYMENT_ID
+            const SCRIPT_URL = 'https://script.google.com/macros/d/{DEPLOYMENT_ID}/usercallback';
+
+            const form = new FormData();
+            Object.keys(data).forEach(key => {
+                form.append(key, data[key]);
+            });
+
+            const response = await fetch(SCRIPT_URL, {
+                method: 'POST',
+                body: form
+            });
+
+            if (!response.ok) {
+                throw new Error('Erreur lors de l\'envoi des données');
+            }
+        }
+    </script>
+</body>
+</html>
